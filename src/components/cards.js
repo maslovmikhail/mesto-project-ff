@@ -61,7 +61,7 @@ export function createCard(
   return cardElement;
 }
 
-// Функция добавления карточки
+// Форма добавления карточки
 export function newCardForm(
   newCardModal,
   cardTemplate,

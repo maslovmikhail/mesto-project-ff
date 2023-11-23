@@ -46,7 +46,7 @@ export function openImageModal(
   });
 }
 
-// функция-обработчик события открытия модального окна для редактирования профиля
+// функция открытия модального окна для редактирования профиля
 export function profileForm(profileEdit) {
   const formElement = profileEdit.querySelector(".popup__form");
   const nameInput = formElement.querySelector(".popup__input_type_name");

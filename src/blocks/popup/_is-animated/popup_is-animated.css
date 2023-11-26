@@ -2,8 +2,8 @@
     display: flex;
 
     /*Стили для плавного появления модалки*/
-    visibility: hidden;
-    opacity: 0;
+    visibility: visible;
+    opacity: 1;
     pointer-events: none;
     user-select: none;
 

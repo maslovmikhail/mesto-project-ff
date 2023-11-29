@@ -1,11 +1,6 @@
 import "../pages/index.css";
 import { createCard, deleteCard, likeCard } from "./card.js";
-import {
-  openModal,
-  closeModal,
-  closeModalByClickLayer,
-  closeModalByEsc,
-} from "./modal.js";
+import { openModal, closeModal, closeModalByClickLayer } from "./modal.js";
 import { initialCards } from "./cards.js";
 import profileAvatar from "../images/avatar.jpg";
 
@@ -19,7 +14,7 @@ document
 
 const cardsList = document.querySelector(".places__list");
 
-// Модальное окно редактировать профиль
+// Модальное окно "Редактировать профиль"
 const profileEditButton = document.querySelector(".profile__edit-button");
 const profileEdit = document.querySelector(".popup_type_edit");
 const profileCloseButton = profileEdit.querySelector(".popup__close");
@@ -33,7 +28,7 @@ const newCardCloseButton = newCardModal.querySelector(".popup__close");
 const imageModal = document.querySelector(".popup_type_image");
 const imageModalCloseButton = imageModal.querySelector(".popup__close");
 const popupImage = imageModal.querySelector(".popup__image");
-const popupTitle = imageModal.querySelector(".popup__caption");
+const popupImageTitle = imageModal.querySelector(".popup__caption");
 
 // Поля формы добавления новой карточки
 const newCardForm = newCardModal.querySelector(".popup__form");
@@ -54,11 +49,6 @@ const profileJobInput = profileFormElement.querySelector(
 // Имя и информация о себе
 const profileTitle = document.querySelector(".profile__title");
 const profileDescription = document.querySelector(".profile__description");
-
-
-
-// Закрытие модального окна нажатием на Esc
-document.addEventListener("click", closeModalByEsc);
 
 // Открытие модального окна "Редактировать профиль"
 profileEditButton.addEventListener("click", () => {
@@ -89,13 +79,10 @@ newCardCloseButton.addEventListener("click", () => {
 closeModalByClickLayer(newCardModal);
 
 // Функция открытия модального окна с картинкой
-function openImageModal(cardImage, cardImageValue, cardPlaceValue) {
-  cardImage.addEventListener("click", () => {
-    popupImage.src = cardImageValue;
-    popupImage.alt = cardPlaceValue;
-    popupTitle.textContent = cardPlaceValue;
-    openModal(imageModal);
-  });
+function openImageModal(cardImageValue, cardImageAltValue, cardPlaceValue) {
+  popupImage.src = cardImageValue;
+  popupImage.alt = cardImageAltValue;
+  popupImageTitle.textContent = cardPlaceValue;
 }
 
 // Закрытие модального окна с картинкой
@@ -105,8 +92,6 @@ imageModalCloseButton.addEventListener("click", () => {
 
 // Закрытие модального окна с картинкой кликом на оверлей
 closeModalByClickLayer(imageModal);
-
-
 
 // Обработчик отправки формы редактирования профиля
 function profileFormSubmit(evt) {
@@ -120,44 +105,40 @@ function profileFormSubmit(evt) {
 }
 profileFormElement.addEventListener("submit", profileFormSubmit);
 
-
 // Обработчик отправки формы добавления карточки
-function newCarFormdSubmit(evt) {
+function newCardFormSubmit(evt) {
   evt.preventDefault();
+
+  const cardImageValue = cardImageUrl.value;
+  const cardPlaceValue = cardPlaceInput.value;
+  const cardImageAltValue = cardPlaceInput.value;
 
   const cardElement = createCard(
     cardTemplate,
-    evt,
+    cardImageValue,
+    cardImageAltValue,
+    cardPlaceValue,
     imageModal,
     openImageModal,
     deleteCard,
     likeCard
   );
 
-  const cardImage = cardElement.querySelector(".card__image");
-  cardImage.src = cardImageUrl.value;
-  cardImage.alt = cardPlaceInput.value;
-  cardElement.querySelector(".card__title").textContent = cardPlaceInput.value;
-
-  const cardImageValue = cardImageUrl.value;
-  const cardPlaceValue = cardPlaceInput.value;
-
-  openImageModal(cardImage, cardImageValue, cardPlaceValue, imageModal);
-
   cardsList.prepend(cardElement);
   closeModal(newCardModal);
   newCardForm.reset();
 }
 
-newCardForm.addEventListener("submit", newCarFormdSubmit);
-
+newCardForm.addEventListener("submit", newCardFormSubmit);
 
 // Функция вывода карточек на страницу
 function addCard() {
   initialCards.forEach((element) => {
     const cardElement = createCard(
       cardTemplate,
-      element,
+      element.link,
+      element.alt,
+      element.name,
       imageModal,
       openImageModal,
       deleteCard,

@@ -1,7 +1,11 @@
+import { openModal } from "./modal";
+
 // Функция создания карточки
 export function createCard(
   cardTemplate,
-  element,
+  cardImageValue,
+  cardImageAltValue,
+  cardPlaceValue,
   imageModal,
   openImageModal,
   deleteCard,
@@ -9,10 +13,11 @@ export function createCard(
 ) {
   const cardElement = cardTemplate.cloneNode(true);
   const cardImage = cardElement.querySelector(".card__image");
+  const cardTitle = cardElement.querySelector(".card__title");
 
-  cardImage.src = element.link;
-  cardImage.alt = element.alt;
-  cardElement.querySelector(".card__title").textContent = element.name;
+  cardImage.src = cardImageValue;
+  cardImage.alt = cardImageAltValue;
+  cardTitle.textContent = cardPlaceValue;
   cardElement
     .querySelector(".card__delete-button")
     .addEventListener("click", deleteCard);
@@ -20,10 +25,10 @@ export function createCard(
     .querySelector(".card__like-button")
     .addEventListener("click", likeCard);
 
-  const cardImageValue = element.link;
-  const cardPlaceValue = element.name;
-
-  openImageModal(cardImage, cardImageValue, cardPlaceValue, imageModal);
+  cardImage.addEventListener("click", () => {
+    openImageModal(cardImageValue, cardImageAltValue, cardPlaceValue);
+    openModal(imageModal);
+  });
 
   return cardElement;
 }

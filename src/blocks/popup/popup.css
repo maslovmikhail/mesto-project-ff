@@ -8,6 +8,7 @@
 @import url('./__caption/popup__caption.css');
 @import url('./__image/popup__image.css');
 @import url('./_is-animated/popup_is-animated.css');
+@import url('./__input-error/form__input-error.css');
 
 .popup {
   visibility: hidden;

@@ -1,0 +1,15 @@
+.profile__edit-icon {
+  cursor: pointer;
+  opacity: 0;
+  position: absolute;
+  right: 50%;
+  top: 50%;
+  transform: translateX(-50%);
+  transform: translateY(-50%);
+  background: url("../../../images/edit-avatar-icon.svg") no-repeat;
+  inline-size: 26px;
+  block-size: 26px;
+  color: #fff;
+  transition: 0.3s;
+}
+

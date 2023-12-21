@@ -7,8 +7,6 @@ export function createCard(
   cardLikes,
   cardId,
   userId,
-  imageModal,
-  openModal,
   openImageModal,
   deleteCard,
   deleteMyCard,
@@ -41,29 +39,16 @@ export function createCard(
   cardImage.alt = cardPlaceValue;
   cardTitle.textContent = cardPlaceValue;
 
-  cardElement
-    .querySelector(".card__delete-button")
-    .addEventListener("click", (evt) => {
-      deleteCard(evt, deleteMyCard, cardId);
-    });
+  cardDeleteButton.addEventListener("click", (evt) => {
+    deleteCard(evt, deleteMyCard, cardId);
+  });
 
-  cardElement
-    .querySelector(".card__like-button")
-    .addEventListener("click", (evt) => {
-      likeCard(
-        evt,
-        cardLikes,
-        userId,
-        cardId,
-        cardLikesQty,
-        addLike,
-        removeLike
-      );
-    });
+  cardLikeButton.addEventListener("click", (evt) => {
+    likeCard(evt, cardId, cardLikesQty, addLike, removeLike);
+  });
 
   cardImage.addEventListener("click", () => {
     openImageModal(cardImageValue, cardPlaceValue, cardPlaceValue);
-    openModal(imageModal);
   });
 
   return cardElement;
@@ -81,16 +66,8 @@ export function deleteCard(evt, deleteMyCard, cardId) {
 }
 
 // Функция лайка карточки
-export function likeCard(
-  evt,
-  cardLikes,
-  userId,
-  cardId,
-  cardLikesQty,
-  addLike,
-  removeLike
-) {
-  if (!cardLikes.some((element) => element._id === userId)) {
+export function likeCard(evt, cardId, cardLikesQty, addLike, removeLike) {
+  if (!evt.target.classList.contains("card__like-button_is-active")) {
     addLike(cardId)
       .then((res) => {
         evt.target.classList.add("card__like-button_is-active");

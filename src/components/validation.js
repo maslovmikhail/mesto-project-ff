@@ -27,6 +27,7 @@ const hideInputError = (
   errorElement.textContent = "";
 };
 
+// Функция, которая удаляет класс с ошибкой
 const isValid = (formElement, inputElement, inputErrorClass, errorClass) => {
   if (inputElement.validity.patternMismatch) {
     inputElement.setCustomValidity(inputElement.dataset.errorMessage);
@@ -53,6 +54,7 @@ const hasInvalidInput = (inputList) => {
   });
 };
 
+// функция переключения кнопки
 const toggleButtonState = (inputList, buttonElement, inactiveButtonClass) => {
   if (hasInvalidInput(inputList)) {
     buttonElement.disabled = true;
@@ -63,6 +65,7 @@ const toggleButtonState = (inputList, buttonElement, inactiveButtonClass) => {
   }
 };
 
+// добавление обработчиков всем полям формы
 const setEventListeners = (
   formElement,
   inputSelector,
@@ -85,6 +88,7 @@ const setEventListeners = (
   });
 };
 
+// функция активации валидации
 export const enableValidation = (data) => {
   const formList = Array.from(document.querySelectorAll(data.formSelector));
 
@@ -103,18 +107,23 @@ export const enableValidation = (data) => {
   });
 };
 
+// функция очистки ошибок валидации
 export const clearValidation = (elementForm, validationConfig) => {
-  if (validationConfig) {
-    const inputErrorList = Array.from(elementForm.querySelectorAll(".form__input-error"));
-    inputErrorList.forEach(inputError => {
-      inputError.textContent = "";
-    });
+  const inputList = Array.from(
+    elementForm.querySelectorAll(validationConfig.inputSelector)
+  );
+  inputList.forEach((inputElement) => {
+    hideInputError(
+      elementForm,
+      inputElement,
+      validationConfig.inputErrorClass,
+      validationConfig.errorClass
+    );
+  });
 
-    const inputList = Array.from(elementForm.querySelectorAll(".popup__input"));
-    inputList.forEach(input => {
-      input.classList.remove("popup__input_type_error");
-    })
-
-    elementForm.querySelector(".popup__button").classList.add("popup__button_disabled");
-  }
-}
+  const buttonElement = elementForm.querySelector(
+    validationConfig.submitButtonSelector
+  );
+  buttonElement.disabled = true;
+  buttonElement.classList.add(validationConfig.inactiveButtonClass);
+};
